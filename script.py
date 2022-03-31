@@ -64,53 +64,128 @@ def hurricanes_by_year(hurricanes):
     return hurricanes_year
 
 hurricanes_year = hurricanes_by_year(hurricanes)
-print(hurricanes_year)
+# print(hurricanes_year)
 
 # write your count affected areas function here:
 
-def count_areas_affected(areas_affected):
+def count_areas_affected(hurricanes):
     count_area = {}
-    for area in areas_affected:
-        for place in area:
-            if  place not in count_area:
-                count_area[place] = 1
+    for name in hurricanes:
+        current_area = hurricanes[name]["Areas Affected"]
+        for area in current_area:
+            if area not in count_area:
+                count_area[area] = 1
             else:
-                count_area[place] += 1
+                count_area[area] += 1
     return count_area
 
-count_area = count_areas_affected(areas_affected)
-print(count_area)
+count_area = count_areas_affected(hurricanes)
+# print(count_area)
 
 # write your find most affected area function here:
 
+def most_affected_area(count_area):
+    max_area = 'Mbantul'
+    max_area_count = 0
+    for area in count_area:
+        if count_area[area] > max_area_count:
+            max_area = area
+            max_area_count = count_area[area]
+    return max_area, max_area_count
 
-
-
-
+max_area, max_area_count = most_affected_area(count_area)
+# print(max_area, max_area_count)
 
 
 # write your greatest number of deaths function here:
 
+def greatest_number_of_deaths(hurricanes):
+    max_mortality_cane  = "Cinta"
+    max_mortality  = 0
+    for name in hurricanes:
+        current_death = hurricanes[name]["Death"]
+        if max_mortality  < current_death:
+            max_mortality_cane  = hurricanes[name]["Name"]
+            max_mortality  = current_death
+    return max_mortality_cane , max_mortality 
 
-
-
-
-
+max_mortality_cane , max_mortality  = greatest_number_of_deaths(hurricanes)
+# print(max_mortality_cane , max_mortality )
 
 # write your catgeorize by mortality function here:
 
+mortality_scale = {0: 0,
+                   1: 100,
+                   2: 500,
+                   3: 1000,
+                   4: 10000}
 
+def categorize_by_mortality(hurricanes):
+    hurricanes_by_mortality = {0: [], 1: [], 2: [], 3: [], 4: [], 5: []}
+    for name in hurricanes:
+        num_death = hurricanes[name]["Death"]
+        if num_death == mortality_scale[0]:
+            hurricanes_by_mortality[0].append(name)
+        elif num_death <= mortality_scale[1]:
+                hurricanes_by_mortality[1].append(name)
+        elif num_death <= mortality_scale[2]:
+                hurricanes_by_mortality[2].append(name)
+        elif num_death <= mortality_scale[3]:
+                hurricanes_by_mortality[3].append(name)
+        elif num_death <= mortality_scale[4]:
+                hurricanes_by_mortality[4].append(name)
+        elif num_death > mortality_scale[4]:
+            hurricanes_by_mortality[5].append(name)
+    return hurricanes_by_mortality
 
-
-
-
+hurricanes_by_mortality = categorize_by_mortality(hurricanes)
+# print(hurricanes_by_mortality)
 
 # write your greatest damage function here:
 
+def greatest_damage(hurricanes):
+    max_damage_cane = "Sleman"
+    max_damage = 0
+    for name in hurricanes:
+        current_damage = hurricanes[name]["Damage"]
+        if current_damage == "Damages not recorded":
+            continue
+        elif current_damage > max_damage:
+            max_damage_cane = hurricanes[name]["Name"]
+            max_damage = current_damage
+    return max_damage_cane, max_damage
 
-
-
-
-
+max_damage_cane, max_damage = greatest_damage(hurricanes)
+print(max_damage_cane, max_damage)
 
 # write your catgeorize by damage function here:
+
+damage_scale = {0: 0,
+                1: 100000000,
+                2: 1000000000,
+                3: 10000000000,
+                4: 50000000000}
+
+def categorize_by_damage(hurricanes):
+    hurricanes_by_damage = {0: [], 1: [], 2: [], 3: [], 4: [], 5: []}
+    for name in hurricanes:
+        current_damage = hurricanes[name]["Damage"]
+        if current_damage == "Damages not recorded":
+            continue
+        elif current_damage == damage_scale[0]:
+            hurricanes_by_damage[0].append(name)
+        elif current_damage <= damage_scale[1]:
+            hurricanes_by_damage[1].append(name)
+        elif current_damage <= damage_scale[2]:
+            hurricanes_by_damage[2].append(name)    
+        elif current_damage <= damage_scale[3]:
+            hurricanes_by_damage[3].append(name)    
+        elif current_damage <= damage_scale[4]:
+            hurricanes_by_damage[4].append(name)
+        elif current_damage > damage_scale[4]:
+            hurricanes_by_damage[5].append(name)
+    return hurricanes_by_damage
+
+hurricanes_by_damage = categorize_by_damage(hurricanes)
+print(hurricanes_by_damage)
+    
